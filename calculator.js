@@ -1,5 +1,7 @@
 class Calculator {
   constructor() {
+    this.DECIMALS = 3;
+
     this.firstValue = [];
     this.secondValue = [];
     this.currentValue = this.firstValue;
@@ -57,7 +59,7 @@ class Calculator {
   }
 
   calculate(operation, numOne, numTwo) {
-    return String(this[operation](numOne, numTwo)).split("");
+    return String(this[operation](numOne, numTwo).toFixed(this.DECIMALS)).split("");
   }
 
   updateDisplay() {
