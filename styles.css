@@ -1,0 +1,22 @@
+* {
+  border: 1px solid black
+}
+
+#calc-container {
+  height: 400px;
+  width: 300px;
+}
+
+.number-button {
+  background-color: gray;
+  border: none;
+}
+
+.function-button {
+  background-color: orange;
+  border: none;
+}
+
+.buttons-row {
+  display: flex;
+}
