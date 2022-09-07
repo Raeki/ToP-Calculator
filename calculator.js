@@ -1,83 +1,92 @@
 class Calculator {
-  constructor(display) {
+  constructor() {
     this.firstValue = [];
     this.secondValue = [];
     this.currentValue = this.firstValue;
     this.operation;
-    this.solution;
+    this.writable = true;
   }
 
   buttonClick(value, className) {
-    if (this.solution) {
-      this.updateOperation(value, className);
-      this.solution = undefined;
-    } else if (this.isValidNegative(value)) {
-      this.currentValue.push("-");
-    } else if (this.isDecimal(value)) {
-      this.pushValidDecimal();
-    } else if (this.isNum(value)) {
-      this.currentValue.push(value);
-    } else if (this.isEquals(value)) {
-      this.calculate();
-    } else if (this.isClear(value)) {
-      console.log("clear not implemented yet");
-    } else if (!this.operation) {
-      this.updateOperation(value, className);
-    } else {
-      this.calculate();
-      this.updateOperation(value, className);
+    if (className === "number-button") {
+      this.pushNumOrDecimal(value);
+      this.updateDisplay();
     }
-    this.updateDisplay();
+
+    if (className === "operation-button") {
+      this.checkOperation(value);
+    }
+
     console.log(this);
   }
 
-  calculate() {
-    if (this.operation) {
-      const valOne = Number(this.firstValue.join(""));
-      const valTwo = Number(this.secondValue.join(""));
-      this.solution = this[this.operation](valOne, valTwo);
-      this.resetValues(this.solution);
+  pushNumOrDecimal(value) {
+    if (this.writable) {
+      if (this.isDecimal(value)) {
+        this.pushDecimal();
+      } else if (!this.secondValue.length && this.operation) {
+        this.currentValue = this.secondValue;
+        this.currentValue.push(value);
+      } else {
+        this.currentValue.push(value);
+      }
     }
   }
 
-  resetValues(solution) {
-    this.firstValue = String(solution).split("");
-    this.secondValue = [];
-    this.currentValue = this.firstValue;
-    this.operation = undefined;
-  }
-
-  updateOperation(value, className) {
-    if (className === "operation-button") {
+  checkOperation(value) {
+    if (value === "equals") {
+      this.equals();
+      this.updateDisplay();
+    } else if (value === "clear") {
+      this.clear();
+      this.updateDisplay();
+    } else if (this.isValidNegative(value)) {
+      this.pushNegative();
+    } else if (this.currentValue !== this.secondValue) {
+      this.updateOperation(value);
+    } else if (this.currentValue === this.secondValue) {
+      this.equals();
+      this.updateDisplay();
       this.operation = value;
-      this.currentValue = this.secondValue;
     }
   }
 
-  isNum(value) {
-    return !Number.isNaN(Number(value));
+  calculate(operation) {
+    return String(
+      this[operation](Number(this.firstValue.join("")), Number(this.secondValue.join("")))
+    ).split("");
+  }
+
+  updateDisplay() {
+    display.innerText = this.currentValue.join("");
+  }
+
+  updateOperation(value) {
+    this.operation = value;
+    this.currentValue = this.secondValue;
+    this.writable = true;
+  }
+
+  swapCurrent() {
+    this.currentValue === this.firstValue ? this.secondValue : this.firstValue;
   }
 
   isValidNegative(value) {
     return value === "subtract" && !this.currentValue.length;
   }
 
-  isEquals(value) {
-    return value === "equals";
-  }
-
-  isClear(value) {
-    return value === "clear";
-  }
-
   isDecimal(value) {
     return value === ".";
   }
 
-  pushValidDecimal() {
+  pushDecimal() {
     if (!this.currentValue.includes(".")) {
       this.currentValue.push(".");
     }
+  }
+
+  pushNegative() {
+    this.currentValue.push("-");
   }
 
   add(valOne, valTwo) {
@@ -96,7 +105,21 @@ class Calculator {
     return valOne / valTwo;
   }
 
-  updateDisplay() {
-    display.innerText = this.currentValue.join("");
+  clear() {
+    this.firstValue = [];
+    this.secondValue = [];
+    this.currentValue = this.firstValue;
+    this.operation = undefined;
+    this.writable = true;
+  }
+
+  equals() {
+    if (this.operation) {
+      this.firstValue = this.calculate(this.operation);
+      this.currentValue = this.firstValue;
+      this.secondValue = [];
+      this.operation = undefined;
+      this.writable = false;
+    }
   }
 }
