@@ -22,7 +22,24 @@ class Calculator {
       this.operation = value;
       this.currentValue = this.secondValue;
     }
-    display.innerText = this.currentValue.join("");
+    this.updateDisplay();
+    console.log(this);
+  }
+
+  calculate() {
+    if (this.operation) {
+      const valOne = Number(this.firstValue.join(""));
+      const valTwo = Number(this.secondValue.join(""));
+      this.solution = this[this.operation](valOne, valTwo);
+      this.resetValues(this.solution);
+    }
+  }
+
+  resetValues(solution) {
+    this.firstValue = String(solution).split("");
+    this.secondValue = [];
+    this.currentValue = this.firstValue;
+    this.operation = undefined;
   }
 
   isNum(value) {
@@ -51,7 +68,23 @@ class Calculator {
     }
   }
 
-  calculate() {
-    console.log("calculate not implemented yet");
+  add(valOne, valTwo) {
+    return valOne + valTwo;
+  }
+
+  subtract(valOne, valTwo) {
+    return valOne - valTwo;
+  }
+
+  multiply(valOne, valTwo) {
+    return valOne * valTwo;
+  }
+
+  divide(valOne, valTwo) {
+    return valOne / valTwo;
+  }
+
+  updateDisplay() {
+    display.innerText = this.currentValue.join("");
   }
 }
