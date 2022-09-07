@@ -1,22 +1,52 @@
-* {
+button, #calc-container {
   border: 1px solid black
 }
 
 #calc-container {
-  height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  height: 425px;
   width: 300px;
 }
 
-.number-button {
-  background-color: gray;
-  border: none;
+#display {
+  height: 75px;
+  width: 300px;
+  flex:0 0 auto;
 }
 
-.function-button {
-  background-color: orange;
-  border: none;
+#buttons-container {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: stretch;
 }
 
 .buttons-row {
   display: flex;
+  flex: 1;
 }
+
+.number-button, .function-button {
+  flex: 0 0 25%;
+}
+
+#clear {
+  flex: 0 0 75%;
+}
+
+#zero {
+  flex: 0 0 50%;
+}
+
+.number-button {
+  background-color: gray;
+}
+
+.function-button {
+  background-color: orange;
+}
+
+
+
