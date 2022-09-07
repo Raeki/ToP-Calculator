@@ -48,6 +48,7 @@ class Calculator {
       this.equals();
       this.updateDisplay();
       this.operation = value;
+      this.writable = true;
     }
   }
 
