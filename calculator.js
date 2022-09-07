@@ -23,15 +23,15 @@ class Calculator {
   }
 
   pushNumOrDecimal(value) {
-    if (this.writable) {
-      if (this.isDecimal(value)) {
+    if (this.isDecimal(value)) {
+      if (this.writable) {
         this.pushDecimal();
-      } else if (!this.secondValue.length && this.operation) {
-        this.currentValue = this.secondValue;
-        this.currentValue.push(value);
-      } else {
-        this.currentValue.push(value);
       }
+    } else if (!this.secondValue.length && this.operation) {
+      this.currentValue = this.secondValue;
+      this.currentValue.push(value);
+    } else {
+      this.currentValue.push(value);
     }
   }
 
@@ -59,11 +59,15 @@ class Calculator {
   }
 
   calculate(operation, numOne, numTwo) {
-    return String(this[operation](numOne, numTwo).toFixed(this.DECIMALS)).split("");
+    return String(this[operation](numOne, numTwo)).split("");
   }
 
   updateDisplay() {
-    display.innerText = this.currentValue.join("");
+    if (this.currentValue.includes(".")) {
+      display.innerText = Number(this.currentValue.join("")).toFixed(this.DECIMALS);
+    } else {
+      display.innerText = this.currentValue.join("");
+    }
   }
 
   updateOperation(value) {

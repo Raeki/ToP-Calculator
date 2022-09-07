@@ -1,9 +1,9 @@
 (() => {
   window.addEventListener("load", () => {
-    const display = document.getElementById("display");
+    // const display = document.getElementById("display");
     const buttons = document.querySelectorAll("button");
 
-    const calculator = new Calculator(display);
+    const calculator = new Calculator();
 
     buttons.forEach(button => {
       button.addEventListener("click", () => {
