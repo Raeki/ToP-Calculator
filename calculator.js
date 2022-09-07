@@ -42,6 +42,7 @@ class Calculator {
       this.updateDisplay();
     } else if (this.isValidNegative(value)) {
       this.pushNegative();
+      this.updateDisplay();
     } else if (this.currentValue !== this.secondValue) {
       this.updateOperation(value);
     } else if (this.currentValue === this.secondValue) {
@@ -52,10 +53,8 @@ class Calculator {
     }
   }
 
-  calculate(operation) {
-    return String(
-      this[operation](Number(this.firstValue.join("")), Number(this.secondValue.join("")))
-    ).split("");
+  calculate(operation, numOne, numTwo) {
+    return String(this[operation](numOne, numTwo)).split("");
   }
 
   updateDisplay() {
@@ -63,9 +62,11 @@ class Calculator {
   }
 
   updateOperation(value) {
-    this.operation = value;
-    this.currentValue = this.secondValue;
-    this.writable = true;
+    if (!isNaN(Number(this.firstValue.join("")))) {
+      this.operation = value;
+      this.currentValue = this.secondValue;
+      this.writable = true;
+    }
   }
 
   swapCurrent() {
@@ -78,6 +79,10 @@ class Calculator {
 
   isDecimal(value) {
     return value === ".";
+  }
+
+  areNumbers(numOne, numTwo) {
+    return !isNaN(numOne) && !isNaN(numTwo);
   }
 
   pushDecimal() {
@@ -115,8 +120,11 @@ class Calculator {
   }
 
   equals() {
-    if (this.operation) {
-      this.firstValue = this.calculate(this.operation);
+    const numOne = Number(this.firstValue.join(""));
+    const numTwo = Number(this.secondValue.join(""));
+
+    if (this.operation && this.areNumbers(numOne, numTwo)) {
+      this.firstValue = this.calculate(this.operation, numOne, numTwo);
       this.currentValue = this.firstValue;
       this.secondValue = [];
       this.operation = undefined;
