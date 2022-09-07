@@ -2,6 +2,10 @@ button, #calc-container {
   border: 1px solid black
 }
 
+button:focus {
+  outline: none;
+}
+
 #calc-container {
   display: flex;
   flex-direction: column;
