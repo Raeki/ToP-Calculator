@@ -40,6 +40,9 @@ class Calculator {
     } else if (value === "clear") {
       this.clear();
       this.updateDisplay();
+    } else if (value === "delete") {
+      this.delete();
+      this.updateDisplay();
     } else if (this.isValidNegative(value)) {
       this.pushNegative();
       this.updateDisplay();
@@ -111,14 +114,6 @@ class Calculator {
     return valOne / valTwo;
   }
 
-  clear() {
-    this.firstValue = [];
-    this.secondValue = [];
-    this.currentValue = this.firstValue;
-    this.operation = undefined;
-    this.writable = true;
-  }
-
   equals() {
     const numOne = Number(this.firstValue.join(""));
     const numTwo = Number(this.secondValue.join(""));
@@ -130,5 +125,17 @@ class Calculator {
       this.operation = undefined;
       this.writable = false;
     }
+  }
+
+  clear() {
+    this.firstValue = [];
+    this.secondValue = [];
+    this.currentValue = this.firstValue;
+    this.operation = undefined;
+    this.writable = true;
+  }
+
+  delete() {
+    this.currentValue.pop();
   }
 }
