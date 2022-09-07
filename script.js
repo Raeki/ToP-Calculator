@@ -7,7 +7,7 @@
 
     buttons.forEach(button => {
       button.addEventListener("click", () => {
-        calculator.buttonClick(button.value);
+        calculator.buttonClick(button.value, button.className);
       });
     });
   });

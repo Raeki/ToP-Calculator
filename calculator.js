@@ -7,8 +7,11 @@ class Calculator {
     this.solution;
   }
 
-  buttonClick(value) {
-    if (this.isValidNegative(value)) {
+  buttonClick(value, className) {
+    if (this.solution) {
+      this.updateOperation(value, className);
+      this.solution = undefined;
+    } else if (this.isValidNegative(value)) {
       this.currentValue.push("-");
     } else if (this.isDecimal(value)) {
       this.pushValidDecimal();
@@ -19,8 +22,10 @@ class Calculator {
     } else if (this.isClear(value)) {
       console.log("clear not implemented yet");
     } else if (!this.operation) {
-      this.operation = value;
-      this.currentValue = this.secondValue;
+      this.updateOperation(value, className);
+    } else {
+      this.calculate();
+      this.updateOperation(value, className);
     }
     this.updateDisplay();
     console.log(this);
@@ -40,6 +45,13 @@ class Calculator {
     this.secondValue = [];
     this.currentValue = this.firstValue;
     this.operation = undefined;
+  }
+
+  updateOperation(value, className) {
+    if (className === "operation-button") {
+      this.operation = value;
+      this.currentValue = this.secondValue;
+    }
   }
 
   isNum(value) {
