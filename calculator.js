@@ -1,5 +1,5 @@
 class Calculator {
-  constructor() {
+  constructor(display) {
     this.firstValue = [];
     this.secondValue = [];
     this.currentValue = this.firstValue;
@@ -10,17 +10,19 @@ class Calculator {
   buttonClick(value) {
     if (this.isValidNegative(value)) {
       this.currentValue.push("-");
+    } else if (this.isDecimal(value)) {
+      this.pushValidDecimal();
     } else if (this.isNum(value)) {
       this.currentValue.push(value);
+    } else if (this.isEquals(value)) {
+      this.calculate();
     } else if (this.isClear(value)) {
       console.log("clear not implemented yet");
     } else if (!this.operation) {
       this.operation = value;
       this.currentValue = this.secondValue;
-    } else if (this.isEquals(value)) {
-      this.calculate();
     }
-    console.log(this);
+    display.innerText = this.currentValue.join("");
   }
 
   isNum(value) {
@@ -37,6 +39,16 @@ class Calculator {
 
   isClear(value) {
     return value === "clear";
+  }
+
+  isDecimal(value) {
+    return value === ".";
+  }
+
+  pushValidDecimal() {
+    if (!this.currentValue.includes(".")) {
+      this.currentValue.push(".");
+    }
   }
 
   calculate() {
