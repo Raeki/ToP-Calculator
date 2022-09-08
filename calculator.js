@@ -7,6 +7,7 @@ class Calculator {
     this.currentValue = this.firstValue;
     this.operation;
     this.writable = true;
+    this.deletable = true;
   }
 
   buttonClick(value, className) {
@@ -19,18 +20,19 @@ class Calculator {
       this.checkOperation(value);
     }
     console.log("writable: " + this.writable);
+    console.log("deletable: " + this.deletable);
   }
 
   pushNumOrDecimal(value) {
-    if (this.isDecimal(value)) {
-      if (this.writable) {
+    if (this.writable) {
+      if (this.isDecimal(value)) {
         this.pushDecimal();
+      } else if (!this.secondValue.length && this.operation) {
+        this.currentValue = this.secondValue;
+        this.currentValue.push(value);
+      } else {
+        this.currentValue.push(value);
       }
-    } else if (!this.secondValue.length && this.operation) {
-      this.currentValue = this.secondValue;
-      this.currentValue.push(value);
-    } else {
-      this.currentValue.push(value);
     }
   }
 
@@ -38,12 +40,15 @@ class Calculator {
     if (value === "equals") {
       this.equals();
       this.updateDisplay();
+      this.deletable = false;
     } else if (value === "clear") {
       this.clear();
       this.updateDisplay();
     } else if (value === "delete") {
       this.delete();
-      this.updateDisplay();
+      if (this.deletable) {
+        this.updateDisplay();
+      }
     } else if (this.isValidNegative(value)) {
       this.pushNegative();
       this.updateDisplay();
@@ -54,6 +59,7 @@ class Calculator {
       this.updateDisplay();
       this.operation = value;
       this.writable = true;
+      this.deletable = false;
     }
   }
 
@@ -144,10 +150,11 @@ class Calculator {
     this.currentValue = this.firstValue;
     this.operation = undefined;
     this.writable = true;
+    this.deletable = true;
   }
 
   delete() {
-    if (this.writable) {
+    if (this.deletable) {
       this.currentValue.pop();
     }
   }
