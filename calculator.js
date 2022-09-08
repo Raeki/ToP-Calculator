@@ -19,8 +19,6 @@ class Calculator {
     if (className === "operation-button") {
       this.checkOperation(value);
     }
-    console.log("writable: " + this.writable);
-    console.log("deletable: " + this.deletable);
   }
 
   pushNumOrDecimal(value) {

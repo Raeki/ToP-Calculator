@@ -13,7 +13,7 @@
     const validOperations = {
       Enter: "equals",
       Backspace: "delete",
-      Delete: "delete",
+      Delete: "clear",
       "+": "add",
       "-": "subtract",
       "*": "multiply",
