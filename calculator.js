@@ -8,7 +8,6 @@ class Calculator {
     this.operation;
     this.writable = true;
     this.deletable = true;
-    this.oldSecondValue;
   }
 
   buttonClick(value, className) {
