@@ -8,6 +8,7 @@ class Calculator {
     this.operation;
     this.writable = true;
     this.deletable = true;
+    this.oldSecondValue;
   }
 
   buttonClick(value, className) {
@@ -126,15 +127,28 @@ class Calculator {
   }
 
   divide(valOne, valTwo) {
-    return valOne / valTwo;
+    if (valTwo) {
+      return valOne / valTwo;
+    }
+    return "Stop, get help.";
   }
 
   equals() {
     const numOne = Number(this.firstValue.join(""));
-    const numTwo = Number(this.secondValue.join(""));
+    const numTwo = this.secondValue.length
+      ? Number(this.secondValue.join(""))
+      : Number(this.oldSecondValue.join(""));
 
     if (this.operation && this.areNumbers(numOne, numTwo)) {
       this.firstValue = this.calculate(this.operation, numOne, numTwo);
+      this.currentValue = this.firstValue;
+      this.oldSecondValue = Array.from(this.secondValue);
+      this.secondValue = [];
+      this.oldOperation = this.operation;
+      this.operation = undefined;
+      this.writable = false;
+    } else {
+      this.firstValue = this.calculate(this.oldOperation, numOne, numTwo);
       this.currentValue = this.firstValue;
       this.secondValue = [];
       this.operation = undefined;
