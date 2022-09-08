@@ -18,8 +18,7 @@ class Calculator {
     if (className === "operation-button") {
       this.checkOperation(value);
     }
-
-    console.log(this);
+    console.log("writable: " + this.writable);
   }
 
   pushNumOrDecimal(value) {
@@ -64,10 +63,16 @@ class Calculator {
 
   updateDisplay() {
     if (this.currentValue.includes(".")) {
-      display.innerText = Number(this.currentValue.join("")).toFixed(this.DECIMALS);
-    } else {
-      display.innerText = this.currentValue.join("");
+      const head = this.currentValue.join("").split(".")[0];
+      let tail = this.currentValue.join("").split(".")[1];
+      if (tail.length > this.DECIMALS) {
+        tail = Number("." + tail)
+          .toFixed(this.DECIMALS)
+          .slice(1);
+        this.currentValue = [...head, ...tail];
+      }
     }
+    display.innerText = this.currentValue.join("");
   }
 
   updateOperation(value) {
@@ -142,6 +147,8 @@ class Calculator {
   }
 
   delete() {
-    this.currentValue.pop();
+    if (this.writable) {
+      this.currentValue.pop();
+    }
   }
 }
