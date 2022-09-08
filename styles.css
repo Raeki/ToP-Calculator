@@ -6,6 +6,10 @@ button:focus {
   outline: none;
 }
 
+#display {
+  overflow-x: auto;
+}
+
 #calc-container {
   display: flex;
   flex-direction: column;
